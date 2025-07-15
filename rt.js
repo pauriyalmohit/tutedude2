@@ -26,10 +26,10 @@
       start = new Date().getTime();
     }
 
-   /* function appearAfterDelay() {
+   function appearAfterDelay() {
       var delay = Math.random() ; // 1 to 3 seconds
       setTimeout(moveShape, delay);
-    }*/
+    }
 
     document.getElementById("shape").onclick = function () {
       var end = new Date().getTime();
