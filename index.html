@@ -1,16 +1,117 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>inline javascript,variable,array,if-statement,random number fussing game,Reaction tester
-    </title>
-    <link rel="stylesheet" href="rt.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Validation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 100%;
+      background-color: rgb(220, 230, 240);
+    }
+    .wrapper {
+      width: 550px;
+      margin: 0 auto;
+    }
+    label {
+      width: 200px;
+      float: left;
+      position: relative;
+      top: 12px;
+    }
+    input {
+      width: 320px;
+      font-size: 25px;
+      border: 1px solid black;
+      border-radius: 8px;
+    }
+    .formelement {
+      margin-bottom: 10px;
+    }
+    #submitbutton {
+      width: 130px;
+      margin-left: 200px;
+    }
+    #errors {
+      color: red;
+      font-size: 14px;
+    }
+    #success {
+      color: green;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Reaction Tester</h1>
-    <p  style="text-align: center;">click on the box and play!!</p>
-    <div id="shape"></div>
-    <script src="rt.js"></script>
+  <div id="errors"></div>
+  <div id="success"></div>
+
+  <div class="wrapper">
+    <div class="formelement">
+      <label for="Email">Email</label>
+      <input type="text" id="Email" name="Email">
+    </div>
+    <div class="formelement">
+      <label for="Phone">Phone</label>
+      <input type="text" id="Phone" name="Phone">
+    </div>
+    <div class="formelement">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password">
+    </div>
+    <div class="formelement">
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" name="confirm-password">
+    </div>
+    <input id="submitbutton" type="button" value="Submit">
+  </div>
+
+  <script>
+    function isEmail(email) {
+      var regex = /^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z]{2,4})$/;
+      return regex.test(email);
+    }
+
+    $("#submitbutton").click(function () {
+      var errormessage = "";
+      var missingfield = "";
+
+      var email = $("#Email").val();
+      var phone = $("#Phone").val();
+      var password = $("#password").val();
+      var confirmPassword = $("#confirm-password").val();
+
+      if (email == "") {
+        missingfield += "<p>Email not filled</p>";
+      }
+      if (phone == "") {
+        missingfield += "<p>Phone not filled</p>";
+      }
+      if (password == "") {
+        missingfield += "<p>Password not filled</p>";
+      }
+
+      if (!isEmail(email)) {
+        errormessage += "<p>Email is not valid</p>";
+      }
+      if (!$.isNumeric(phone)) {
+        errormessage += "<p>Phone number is not valid</p>";
+      }
+      if (password !== confirmPassword) {
+        errormessage += "<p>Passwords do not match</p>";
+      }
+
+      if (errormessage == "" && missingfield == "") {
+        $("#errors").html("");
+        $("#success").html("You are registered!");
+      } else {
+        $("#success").html("");
+        $("#errors").html(errormessage + missingfield);
+      }
+    });
+  </script>
 </body>
 </html>
