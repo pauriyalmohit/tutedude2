@@ -43,6 +43,18 @@
       font-size: 14px;
       text-align: center;
     }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -54,18 +66,24 @@
       <label for="Email">Email</label>
       <input type="text" id="Email" name="Email">
     </div>
+
     <div class="formelement">
       <label for="Phone">Phone</label>
-      <input type="text" id="Phone" name="Phone">
+      <input type="text" id="Phone" name="Phone" maxlength="10">
     </div>
-    <div class="formelement">
+
+    <div class="formelement password-wrapper">
       <label for="password">Password</label>
       <input type="password" id="password" name="password">
+      <button type="button" class="toggle-password" onclick="togglePassword('password', this)">Show</button>
     </div>
-    <div class="formelement">
+
+    <div class="formelement password-wrapper">
       <label for="confirm-password">Confirm Password</label>
       <input type="password" id="confirm-password" name="confirm-password">
+      <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', this)">Show</button>
     </div>
+
     <input id="submitbutton" type="button" value="Submit">
   </div>
 
@@ -74,6 +92,22 @@
       var regex = /^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z]{2,4})$/;
       return regex.test(email);
     }
+
+    function togglePassword(fieldId, btn) {
+      const input = document.getElementById(fieldId);
+      if (input.type === "password") {
+        input.type = "text";
+        btn.innerText = "Hide";
+      } else {
+        input.type = "password";
+        btn.innerText = "Show";
+      }
+    }
+
+    // Allow only digits in phone input and limit to 10 digits
+    $("#Phone").on("input", function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
 
     $("#submitbutton").click(function () {
       var errormessage = "";
@@ -97,8 +131,8 @@
       if (!isEmail(email)) {
         errormessage += "<p>Email is not valid</p>";
       }
-      if (!$.isNumeric(phone)) {
-        errormessage += "<p>Phone number is not valid</p>";
+      if (!/^\d{10}$/.test(phone)) {
+        errormessage += "<p>Phone number must be exactly 10 digits</p>";
       }
       if (password !== confirmPassword) {
         errormessage += "<p>Passwords do not match</p>";
