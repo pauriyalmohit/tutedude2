@@ -93,6 +93,12 @@
       return regex.test(email);
     }
 
+    function isStrongPassword(password) {
+      // At least one lowercase, one uppercase, one special character, 8-15 characters
+      var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,15}$/;
+      return regex.test(password);
+    }
+
     function togglePassword(fieldId, btn) {
       const input = document.getElementById(fieldId);
       if (input.type === "password") {
@@ -133,6 +139,9 @@
       }
       if (!/^\d{10}$/.test(phone)) {
         errormessage += "<p>Phone number must be exactly 10 digits</p>";
+      }
+      if (!isStrongPassword(password)) {
+        errormessage += "<p>Password must be 8-15 characters long, with at least one uppercase, one lowercase, and one special character</p>";
       }
       if (password !== confirmPassword) {
         errormessage += "<p>Passwords do not match</p>";
